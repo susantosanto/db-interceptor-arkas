@@ -1,0 +1,1422 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[ ARKAS_DB ] Authorized: santo x/code</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500;700&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --hacker-green: #00ff41;
+            --hacker-green-glow: rgba(0, 255, 65, 0.4);
+            --hacker-green-dim: rgba(0, 255, 65, 0.1);
+            --bg-deep: #050506;
+            --bg-darker: #0d0d0f;
+            --bg-card: rgba(18, 18, 22, 0.8);
+            --text-main: #e0e0e0;
+            --text-dim: #888888;
+            --accent: #22c55e;
+            --border-color: rgba(0, 255, 65, 0.15);
+            --sidebar-width: 300px;
+            --transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            --glass-bg: rgba(10, 10, 12, 0.9);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            overflow: hidden;
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(0, 255, 65, 0.03) 0%, transparent 70%),
+                linear-gradient(rgba(0, 255, 65, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 65, 0.02) 1px, transparent 1px);
+            background-size: 100% 100%, 40px 40px, 40px 40px;
+        }
+
+        /* Scanning Line Animation */
+        body::after {
+            content: "";
+            position: fixed;
+            top: -100%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0, 255, 65, 0.05) 0%, transparent 5%, transparent 95%, rgba(0, 255, 65, 0.05) 100%);
+            pointer-events: none;
+            animation: scan 8s linear infinite;
+            z-index: 9999;
+        }
+
+        @keyframes scan {
+            0% { top: -100%; }
+            100% { top: 100%; }
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            height: 100vh;
+            background: var(--glass-bg);
+            border-right: 1px solid var(--border-color);
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+            position: relative;
+        }
+
+        .sidebar::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--hacker-green), transparent);
+            opacity: 0.3;
+        }
+
+        .logo-area {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin-bottom: 40px;
+            padding-left: 10px;
+        }
+
+        /* Glitch Animation */
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        .logo-text:hover {
+            animation: glitch 0.2s infinite;
+            text-shadow: 2px 0 #ff00ff, -2px 0 #00ffff;
+        }
+
+        /* Scanline HUD Effect */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.1),
+                rgba(0, 0, 0, 0.1) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            pointer-events: none;
+            z-index: 10000;
+            opacity: 0.2;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--bg-deep);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            padding: 40px 20px;
+            z-index: 1001;
+            backdrop-filter: blur(20px);
+        }
+
+        .logo-area {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 40px;
+            padding-left: 10px;
+        }
+
+        .logo-text {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--hacker-green);
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px var(--hacker-green-glow);
+        }
+
+        /* Glitch Animation */
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        .logo-text:hover {
+            animation: glitch 0.2s infinite;
+            text-shadow: 2px 0 #ff00ff, -2px 0 #00ffff;
+        }
+
+        .sidebar::after {
+            content: "";
+            position: absolute;
+            bottom: 20px; right: 20px;
+            width: 60px; height: 60px;
+            background: repeating-conic-gradient(from 0deg, var(--hacker-green-dim) 0deg 90deg, transparent 90deg 180deg);
+            background-size: 10px 10px;
+            opacity: 0.2;
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .logo-subtext {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        .sekolah-info {
+            background: rgba(0, 255, 65, 0.03);
+            border-left: 2px solid var(--hacker-green);
+            padding: 15px;
+            margin-bottom: 30px;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .sekolah-info h3 {
+            color: var(--hacker-green);
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            font-family: 'Syncopate', sans-serif;
+        }
+
+        .sekolah-info p {
+            color: var(--text-dim);
+            font-size: 0.75rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .nav-menu {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding-right: 5px;
+            scrollbar-width: none; /* Firefox */
+        }
+
+        .nav-menu::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Edge */
+        }
+
+        .nav-menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-section-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--hacker-green-dim);
+            margin: 25px 0 10px 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            opacity: 0.6;
+        }
+
+        .nav-section-title::after {
+            content: "";
+            flex-grow: 1;
+            height: 1px;
+            background: rgba(0, 255, 65, 0.1);
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 18px;
+            color: #aaa;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            margin-bottom: 4px;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--hacker-green);
+            background: rgba(0, 255, 65, 0.05);
+            padding-left: 22px;
+        }
+
+        .nav-link.active {
+            color: var(--hacker-green);
+            background: rgba(0, 255, 65, 0.08);
+            border-right: 2px solid var(--hacker-green);
+        }
+
+        .nav-icon { font-size: 1.1rem; }
+
+        .sidebar-footer {
+            margin-top: auto;
+            padding: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            color: #444;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .status-dot {
+            width: 8px; height: 8px;
+            background: var(--hacker-green);
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+            box-shadow: 0 0 8px var(--hacker-green);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.4; }
+            50% { opacity: 1; }
+            100% { opacity: 0.4; }
+        }
+
+        /* Main Container */
+        .main-container {
+            flex-grow: 1;
+            height: 100vh;
+            overflow-y: auto;
+            padding: 50px 60px;
+            background: radial-gradient(circle at top right, rgba(0, 255, 65, 0.02), transparent 40%);
+        }
+
+        .page-header {
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .page-title {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: white;
+            letter-spacing: -1px;
+        }
+
+        .page-subtitle {
+            color: var(--hacker-green);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            opacity: 0.7;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Neural HUD Header */
+        .filter-bar {
+            position: sticky;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(5, 5, 6, 0.9);
+            border-bottom: 1px solid var(--hacker-green-dim);
+            padding: 0 40px;
+            margin-bottom: 40px;
+            z-index: 1000;
+            backdrop-filter: blur(25px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+        }
+
+        .filter-bar::after {
+            content: "";
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--hacker-green), transparent);
+            animation: pulse-line 3s infinite;
+        }
+
+        @keyframes pulse-line {
+            0% { opacity: 0.1; }
+            50% { opacity: 0.8; }
+            100% { opacity: 0.1; }
+        }
+
+        .hud-left {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .hud-decor {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--hacker-green-dim);
+            opacity: 0.4;
+            display: flex;
+            gap: 15px;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .filter-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--hacker-green);
+            opacity: 0.8;
+            letter-spacing: 1px;
+        }
+
+        .filter-select {
+            background: #000;
+            border: 1px solid rgba(0, 255, 65, 0.3);
+            color: var(--hacker-green);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            padding: 4px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+            appearance: none;
+            -webkit-appearance: none;
+        }
+
+        .filter-select option {
+            background-color: #050506;
+            color: var(--hacker-green);
+            padding: 10px;
+        }
+
+        .filter-select:hover {
+            border-color: var(--hacker-green);
+            background: rgba(0, 255, 65, 0.05);
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.2);
+        }
+
+        .filter-select:hover, .filter-select:focus {
+            border-color: var(--hacker-green);
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.1);
+            outline: none;
+        }
+
+        /* Cards Grid */
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .section-header h2 {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .section-line {
+            flex-grow: 1;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(0, 255, 65, 0.2), transparent);
+        }
+
+        .reports-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 25px;
+            margin-bottom: 60px;
+        }
+
+        .report-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 0;
+            position: relative;
+            transition: var(--transition);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .report-card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 2px;
+            background: var(--hacker-green);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: var(--transition);
+            z-index: 2;
+        }
+
+        .report-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--hacker-green-dim);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 255, 65, 0.05);
+        }
+
+        .report-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .card-header-bar {
+            height: 30px;
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            gap: 6px;
+        }
+
+        .dot { width: 6px; height: 6px; border-radius: 50%; background: #333; }
+        .report-card:hover .dot:nth-child(1) { background: #ff5f56; }
+        .report-card:hover .dot:nth-child(2) { background: #ffbd2e; }
+        .report-card:hover .dot:nth-child(3) { background: #27c93f; }
+
+        .card-body {
+            padding: 30px;
+            flex-grow: 1;
+        }
+
+        .report-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .report-icon {
+            font-size: 1.8rem;
+            filter: grayscale(1);
+            transition: var(--transition);
+        }
+
+        .report-card:hover .report-icon {
+            filter: grayscale(0) drop-shadow(0 0 10px var(--hacker-green-glow));
+        }
+
+        .report-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #efefef;
+            margin-bottom: 8px;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .report-desc {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            line-height: 1.6;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .report-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin: 0 30px 30px 30px;
+            padding: 14px;
+            background: rgba(0, 255, 65, 0.05);
+            border: 1px solid rgba(0, 255, 65, 0.1);
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--hacker-green);
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+        }
+
+        .report-link:hover {
+            background: var(--hacker-green);
+            color: black;
+            box-shadow: 0 0 20px var(--hacker-green-glow);
+            transform: scale(1.02);
+        }
+
+        .report-link svg {
+            width: 16px; height: 16px;
+            transition: var(--transition);
+        }
+
+        .report-link:hover svg {
+            transform: translateY(2px);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: var(--bg-deep); }
+        ::-webkit-scrollbar-thumb { background: #222; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--hacker-green); }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .reports-grid { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); }
+        }
+
+        @media (max-width: 900px) {
+            .sidebar { width: 80px; padding: 30px 10px; }
+            .logo-text, .logo-subtext, .sekolah-info, .nav-link span:not(.nav-icon), .nav-section-title, .sidebar-footer { display: none; }
+            .nav-link { justify-content: center; padding: 15px; }
+            .main-container { padding: 30px; }
+            .reports-grid { grid-template-columns: 1fr; }
+            .filter-bar { padding: 15px 20px; gap: 15px; top: 10px; margin-bottom: 30px; flex-wrap: wrap; }
+            .filter-select { min-width: 120px; font-size: 0.8rem; }
+            .cyber-console { width: calc(100% - 80px); }
+        }
+
+        /* Matrix Background */
+        #matrix-bg {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -1;
+            opacity: 0.05;
+            pointer-events: none;
+        }
+
+        /* Terminal Style Console */
+        .cyber-console {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            width: calc(100% - var(--sidebar-width));
+            height: 140px;
+            background: rgba(0, 0, 0, 0.95);
+            border-top: 1px solid var(--hacker-green-dim);
+            padding: 15px 25px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--hacker-green);
+            overflow-y: hidden;
+            z-index: 900;
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .console-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-weight: bold;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 1px solid rgba(0, 255, 65, 0.1);
+            padding-bottom: 3px;
+        }
+
+        .log-entry { 
+            opacity: 0.8;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .log-entry.success { color: #22c55e; }
+        .log-entry.warning { color: #f59e0b; }
+        .log-entry.system { color: #3b82f6; }
+
+        .main-container { padding-bottom: 180px; } /* Space for console */
+
+        @media (max-width: 900px) {
+            .cyber-console { width: calc(100% - 80px); }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="matrix-bg"></canvas>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo-area">
+            <span class="logo-text">X-CODE</span>
+            <span class="logo-subtext">DB_INTERCEPTOR</span>
+        </div>
+
+        <div class="sekolah-info">
+            <h3>{{ sekolah }}</h3>
+            <p>ID: {{ npsn }}</p>
+        </div>
+
+        <div class="nav-menu">
+            <!-- BUKU KAS -->
+            <div class="nav-section">
+                <div class="nav-section-title">Database Access [BKU]</div>
+                <ul>
+                    <li class="nav-item"><a href="#buku-kas" class="nav-link active"><span class="nav-icon"><i class="fa-solid fa-terminal"></i></span><span>Buku Kas Umum</span></a></li>
+                    <li class="nav-item"><a href="#kas-bank" class="nav-link"><span class="nav-icon"><i class="fa-solid fa-vault"></i></span><span>Kas Pembantu Bank</span></a></li>
+                    <li class="nav-item"><a href="#kas-pajak" class="nav-link"><span class="nav-icon"><i class="fa-solid fa-fingerprint"></i></span><span>Kas Pembantu Pajak</span></a></li>
+                    <li class="nav-item"><a href="#kas-tunai" class="nav-link"><span class="nav-icon"><i class="fa-solid fa-money-bill-transfer"></i></span><span>Kas Pembantu Tunai</span></a></li>
+                </ul>
+            </div>
+
+            <!-- KERTAS KERJA -->
+            <div class="nav-section">
+                <div class="nav-section-title">Project Schema [KK]</div>
+                <ul>
+                    <li class="nav-item"><a href="#kertas-kerja" class="nav-link"><span class="nav-icon"><i class="fa-solid fa-microchip"></i></span><span>Rincian Kertas Kerja</span></a></li>
+                    <li class="nav-item"><a href="#rkas" class="nav-link"><span class="nav-icon"><i class="fa-solid fa-code-branch"></i></span><span>Rincian RKAS</span></a></li>
+                </ul>
+            </div>
+
+            <!-- REALISASI -->
+            <div class="nav-section">
+                <div class="nav-section-title">Execution [REALISASI]</div>
+                <ul>
+                    <li class="nav-item"><a href="#realisasi" class="nav-link"><span class="nav-icon"><i class="fa-solid fa-chart-line"></i></span><span>Rekapitulasi Realisasi</span></a></li>
+                    <li class="nav-item"><a href="#realisasi-bhp" class="nav-link"><span class="nav-icon"><i class="fa-solid fa-boxes-stacked"></i></span><span>Barang Habis Pakai</span></a></li>
+                    <li class="nav-item"><a href="#realisasi-modal" class="nav-link"><span class="nav-icon"><i class="fa-solid fa-server"></i></span><span>Barang Modal/Aset</span></a></li>
+                    <li class="nav-item"><a href="#bpobjek" class="nav-link"><span class="nav-icon"><i class="fa-solid fa-crosshairs"></i></span><span>Buku Pembantu Objek</span></a></li>
+                </ul>
+            </div>
+
+            <!-- BOSP -->
+            <div class="nav-section">
+                <div class="nav-section-title">Final Reporting [BOSP]</div>
+                <ul>
+                    <li class="nav-item"><a href="#bosp" class="nav-link"><span class="nav-icon"><i class="fa-solid fa-shield-halved"></i></span><span>Laporan BOSP</span></a></li>
+                </ul>
+            </div>
+            
+        </div>
+
+        <div class="sidebar-footer">
+            <div><span class="status-dot"></span>SYS_ONLINE</div>
+            <div>VER 2.1 premium</div>
+            <div>BOSP_INTEL_SYSTEM</div>
+            <div style="margin-top: 10px; color: var(--hacker-green); opacity: 0.8; font-weight: bold;">[ ARCHITECT: santo x/code ]</div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-container">
+        <header class="page-header">
+            <h1 class="page-title">X-CODE_DB_INTERCEPTOR_v2.0</h1>
+            <div class="page-subtitle">
+                <span>[ STATUS: DECRYPTED ]</span>
+                <span>[ LOCATION: SD NEGERI PASIRHALANG ]</span>
+            </div>
+        </header>
+
+        <!-- Neural HUD Header -->
+        <div class="filter-bar">
+            <div class="hud-left">
+                <div class="hud-decor">
+                    <span>NODE_ID: ARKAS_INTEL_v2</span>
+                    <span id="hex-decor">0x45 0x78 0x61 0x6D 0x70 0x6C 0x65</span>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">SYS_YEAR >> </label>
+                    <select class="filter-select" id="tahunGlobal">
+                        <option value="2023">2023</option>
+                        <option value="2024" selected>2024</option>
+                        <option value="2025">2025</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">SYS_PERD >> </label>
+                    <select class="filter-select" id="bulanGlobal">
+                        <option value="1">JANUARI</option>
+                        <option value="2">FEBRUARI</option>
+                        <option value="3">MARET</option>
+                        <option value="4">APRIL</option>
+                        <option value="5">MEI</option>
+                        <option value="6">JUNI</option>
+                        <option value="7">JULI</option>
+                        <option value="8">AGUSTUS</option>
+                        <option value="9">SEPTEMBER</option>
+                        <option value="10">OKTOBER</option>
+                        <option value="11">NOVEMBER</option>
+                        <option value="12">DESEMBER</option>
+                    </select>
+                </div>
+            </div>
+            <div class="hud-decor">
+                <span>BUFFER_SAT: 99.8%</span>
+                <span>SEC_LAYER: SQL_BYPASS_ACTIVE</span>
+            </div>
+        </div>
+
+        <!-- BUKU KAS UMUM -->
+        <section id="buku-kas">
+            <div class="section-header">
+                <h2>Buku Kas Umum</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="reports-grid">
+                <div class="report-card">
+                    <div class="card-header-bar">
+                        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="report-header">
+                            <div class="report-icon">📋</div>
+                            <div class="report-title">BKU Tahunan</div>
+                        </div>
+                        <div class="report-desc">Dapatkan enkripsi data Buku Kas Umum untuk satu tahun anggaran penuh.</div>
+                    </div>
+                    <a href="#" class="report-link" onclick="downloadReport('/export/bku-tahunan?tahun=' + document.getElementById('tahunGlobal').value)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4m4-10l5 5 5-5m-5 5V3"/></svg> DOWNLOAD_EXCEL
+                    </a>
+                </div>
+                <div class="report-card">
+                    <div class="card-header-bar">
+                        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="report-header">
+                            <div class="report-icon">📅</div>
+                            <div class="report-title">BKU Bulanan</div>
+                        </div>
+                        <div class="report-desc">Ekstrak data transaksi Buku Kas Umum sesuai periode bulan yang dipilih.</div>
+                    </div>
+                    <a href="#" class="report-link" onclick="downloadReport('/export/bku-bulanan?tahun=' + document.getElementById('tahunGlobal').value + '&bulan=' + document.getElementById('bulanGlobal').value)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4m4-10l5 5 5-5m-5 5V3"/></svg> DOWNLOAD_EXCEL
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- KAS PEMBANTU BANK -->
+        <section id="kas-bank">
+            <div class="section-header">
+                <h2>Kas Pembantu Bank</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="reports-grid">
+                <div class="report-card">
+                    <div class="card-header-bar">
+                        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="report-header">
+                            <div class="report-icon">🏦</div>
+                            <div class="report-title">Bank Stream</div>
+                        </div>
+                        <div class="report-desc">Laporan mutasi rekening bank sekolah dalam format terstruktur.</div>
+                    </div>
+                    <a href="#" class="report-link" onclick="downloadReport('/export/kas-bank-bulanan?tahun=' + document.getElementById('tahunGlobal').value + '&bulan=' + document.getElementById('bulanGlobal').value)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4m4-10l5 5 5-5m-5 5V3"/></svg> DOWNLOAD_EXCEL
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- KAS PEMBANTU PAJAK -->
+        <section id="kas-pajak">
+            <div class="section-header">
+                <h2>Kas Pembantu Pajak</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="reports-grid">
+                <div class="report-card">
+                    <div class="card-header-bar">
+                        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="report-header">
+                            <div class="report-icon">⚖️</div>
+                            <div class="report-title">Tax Protocol</div>
+                        </div>
+                        <div class="report-desc">Laporan pemungutan dan penyetoran pajak yang telah diverifikasi.</div>
+                    </div>
+                    <a href="#" class="report-link" onclick="downloadReport('/export/kas-pajak-bulanan?tahun=' + document.getElementById('tahunGlobal').value + '&bulan=' + document.getElementById('bulanGlobal').value)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4m4-10l5 5 5-5m-5 5V3"/></svg> DOWNLOAD_EXCEL
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- KAS PEMBANTU TUNAI -->
+        <section id="kas-tunai">
+            <div class="section-header">
+                <h2>Kas Pembantu Tunai</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="reports-grid">
+                <div class="report-card">
+                    <div class="card-header-bar">
+                        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="report-header">
+                            <div class="report-icon">💰</div>
+                            <div class="report-title">Cash Reserve</div>
+                        </div>
+                        <div class="report-desc">Tracking penggunaan dana tunai dari brankas sekolah.</div>
+                    </div>
+                    <a href="#" class="report-link" onclick="downloadReport('/export/kas-tunai-bulanan?tahun=' + document.getElementById('tahunGlobal').value + '&bulan=' + document.getElementById('bulanGlobal').value)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4m4-10l5 5 5-5m-5 5V3"/></svg> DOWNLOAD_EXCEL
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- KERTAS KERJA -->
+        <section id="kertas-kerja">
+            <div class="section-header">
+                <h2>Rincian Kertas Kerja</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="reports-grid">
+                <div class="report-card">
+                    <div class="card-header-bar">
+                        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="report-header">
+                            <div class="report-icon">📅</div>
+                            <div class="report-title">KK Tahunan</div>
+                        </div>
+                        <div class="report-desc">Rincian kertas kerja komprehensif selama 12 bulan.</div>
+                    </div>
+                    <a href="#" class="report-link" onclick="downloadReport('/export/kk-tahunan?tahun=' + document.getElementById('tahunGlobal').value)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4m4-10l5 5 5-5m-5 5V3"/></svg> DOWNLOAD_EXCEL
+                    </a>
+                </div>
+                <div class="report-card">
+                    <div class="card-header-bar">
+                        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="report-header">
+                            <div class="report-icon">📋</div>
+                            <div class="report-title">KK Tahapan</div>
+                        </div>
+                        <div class="report-desc">Rincian kertas kerja berdasarkan tahapan penyaluran dana.</div>
+                    </div>
+                    <div class="card-actions" style="display:flex; gap:5px; padding: 0 25px 25px;">
+                        <button class="report-link" style="flex:1" onclick="downloadReport('/export/kk-tahapan?tahun=' + document.getElementById('tahunGlobal').value + '&tahapan=1')">T1</button>
+                        <button class="report-link" style="flex:1" onclick="downloadReport('/export/kk-tahapan?tahun=' + document.getElementById('tahunGlobal').value + '&tahapan=2')">T2</button>
+                        <button class="report-link" style="flex:1" onclick="downloadReport('/export/kk-tahapan?tahun=' + document.getElementById('tahunGlobal').value + '&tahapan=3')">T3</button>
+                    </div>
+                </div>
+                <div class="report-card">
+                    <div class="card-header-bar">
+                        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="report-header">
+                            <div class="report-icon">📆</div>
+                            <div class="report-title">KK Bulanan</div>
+                        </div>
+                        <div class="report-desc">Data rincian kertas kerja per bulan yang sedang berjalan.</div>
+                    </div>
+                    <a href="#" class="report-link" onclick="downloadReport('/export/kk-bulanan?tahun=' + document.getElementById('tahunGlobal').value + '&bulan=' + document.getElementById('bulanGlobal').value)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4m4-10l5 5 5-5m-5 5V3"/></svg> DOWNLOAD_EXCEL
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- RKAS -->
+        <section id="rkas">
+            <div class="section-header">
+                <h2>Rincian RKAS</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="reports-grid">
+                <div class="report-card">
+                    <div class="card-header-bar">
+                        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="report-header">
+                            <div class="report-icon">📅</div>
+                            <div class="report-title">RKAS Tahunan</div>
+                        </div>
+                        <div class="report-desc">Rencana Kegiatan dan Anggaran Sekolah dalam satu file.</div>
+                    </div>
+                    <a href="#" class="report-link" onclick="downloadReport('/export/rkas-tahunan?tahun=' + document.getElementById('tahunGlobal').value)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4m4-10l5 5 5-5m-5 5V3"/></svg> DOWNLOAD_EXCEL
+                    </a>
+                </div>
+                <div class="report-card">
+                    <div class="card-header-bar">
+                        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="report-header">
+                            <div class="report-icon">📋</div>
+                            <div class="report-title">RKAS Tahapan</div>
+                        </div>
+                        <div class="report-desc">Rincian RKAS berdasarkan tahapan penyaluran dana BOSP.</div>
+                    </div>
+                    <div class="card-actions" style="display:flex; gap:5px; padding: 0 25px 25px;">
+                        <button class="report-link" style="flex:1" onclick="downloadReport('/export/rkas-tahapan?tahun=' + document.getElementById('tahunGlobal').value + '&tahapan=1')">T1</button>
+                        <button class="report-link" style="flex:1" onclick="downloadReport('/export/rkas-tahapan?tahun=' + document.getElementById('tahunGlobal').value + '&tahapan=2')">T2</button>
+                        <button class="report-link" style="flex:1" onclick="downloadReport('/export/rkas-tahapan?tahun=' + document.getElementById('tahunGlobal').value + '&tahapan=3')">T3</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- REALISASI -->
+        <section id="realisasi">
+            <div class="section-header">
+                <h2>Rekapitulasi Realisasi</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="reports-grid">
+                <div class="report-card">
+                    <div class="card-header-bar">
+                        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="report-header">
+                            <div class="report-icon">📊</div>
+                            <div class="report-title">Realisasi Bulanan</div>
+                        </div>
+                        <div class="report-desc">Perbandingan anggaran dan penggunaan dana tiap bulan.</div>
+                    </div>
+                    <a href="#" class="report-link" onclick="downloadReport('/export/realisasi-bulanan?tahun=' + document.getElementById('tahunGlobal').value + '&bulan=' + document.getElementById('bulanGlobal').value)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4m4-10l5 5 5-5m-5 5V3"/></svg> DOWNLOAD_EXCEL
+                    </a>
+                </div>
+                <div class="report-card">
+                    <div class="card-header-bar">
+                        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="report-header">
+                            <div class="report-icon">🗳️</div>
+                            <div class="report-title">Realisasi Tahapan</div>
+                        </div>
+                        <div class="report-desc">Rekapitulasi realisasi penggunaan dana per tahapan.</div>
+                    </div>
+                    <div class="card-actions" style="display:flex; gap:5px; padding: 0 25px 25px;">
+                        <button class="report-link" style="flex:1" onclick="downloadReport('/export/realisasi-tahapan?tahun=' + document.getElementById('tahunGlobal').value + '&tahapan=1')">T1</button>
+                        <button class="report-link" style="flex:1" onclick="downloadReport('/export/realisasi-tahapan?tahun=' + document.getElementById('tahunGlobal').value + '&tahapan=2')">T2</button>
+                        <button class="report-link" style="flex:1" onclick="downloadReport('/export/realisasi-tahapan?tahun=' + document.getElementById('tahunGlobal').value + '&tahapan=3')">T3</button>
+                    </div>
+                </div>
+                <div class="report-card">
+                    <div class="card-header-bar">
+                        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="report-header">
+                            <div class="report-icon">📈</div>
+                            <div class="report-title">Realisasi Tahunan</div>
+                        </div>
+                        <div class="report-desc">Rekapitulasi total realisasi dana dalam satu tahun anggaran.</div>
+                    </div>
+                    <a href="#" class="report-link" onclick="downloadReport('/export/realisasi-tahunan?tahun=' + document.getElementById('tahunGlobal').value)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4m4-10l5 5 5-5m-5 5V3"/></svg> DOWNLOAD_EXCEL
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- REALISASI BHP -->
+        <section id="realisasi-bhp">
+            <div class="section-header">
+                <h2>Barang Habis Pakai</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="reports-grid">
+                <div class="report-card">
+                    <div class="card-header-bar">
+                        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="report-header">
+                            <div class="report-icon">📅</div>
+                            <div class="report-title">BHP Bulanan</div>
+                        </div>
+                        <div class="report-desc">Realisasi penggunaan barang habis pakai per bulan.</div>
+                    </div>
+                    <a href="#" class="report-link" onclick="downloadReport('/export/realisasi-bhp-bulanan?tahun=' + document.getElementById('tahunGlobal').value + '&bulan=' + document.getElementById('bulanGlobal').value)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4m4-10l5 5 5-5m-5 5V3"/></svg> DOWNLOAD_EXCEL
+                    </a>
+                </div>
+                <div class="report-card">
+                    <div class="card-header-bar">
+                        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="report-header">
+                            <div class="report-icon">📋</div>
+                            <div class="report-title">BHP Tahapan</div>
+                        </div>
+                        <div class="report-desc">Realisasi penggunaan barang habis pakai per tahapan.</div>
+                    </div>
+                    <div class="card-actions" style="display:flex; gap:5px; padding: 0 25px 25px;">
+                        <button class="report-link" style="flex:1" onclick="downloadReport('/export/realisasi-bhp-tahapan?tahun=' + document.getElementById('tahunGlobal').value + '&tahapan=1')">T1</button>
+                        <button class="report-link" style="flex:1" onclick="downloadReport('/export/realisasi-bhp-tahapan?tahun=' + document.getElementById('tahunGlobal').value + '&tahapan=2')">T2</button>
+                        <button class="report-link" style="flex:1" onclick="downloadReport('/export/realisasi-bhp-tahapan?tahun=' + document.getElementById('tahunGlobal').value + '&tahapan=3')">T3</button>
+                    </div>
+                </div>
+                <div class="report-card">
+                    <div class="card-header-bar">
+                        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="report-header">
+                            <div class="report-icon">📦</div>
+                            <div class="report-title">BHP Tahunan</div>
+                        </div>
+                        <div class="report-desc">Data penggunaan logistik dan barang habis pakai sekolah (Yearly).</div>
+                    </div>
+                    <a href="#" class="report-link" onclick="downloadReport('/export/realisasi-bhp-tahunan?tahun=' + document.getElementById('tahunGlobal').value)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4m4-10l5 5 5-5m-5 5V3"/></svg> DOWNLOAD_EXCEL
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- REALISASI MODAL -->
+        <section id="realisasi-modal">
+            <div class="section-header">
+                <h2>Aset & Modal</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="reports-grid">
+                <div class="report-card">
+                    <div class="card-header-bar">
+                        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="report-header">
+                            <div class="report-icon">📅</div>
+                            <div class="report-title">Modal Bulanan</div>
+                        </div>
+                        <div class="report-desc">Realisasi pengadaan barang modal/aset per bulan.</div>
+                    </div>
+                    <a href="#" class="report-link" onclick="downloadReport('/export/realisasi-modal-bulanan?tahun=' + document.getElementById('tahunGlobal').value + '&bulan=' + document.getElementById('bulanGlobal').value)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4m4-10l5 5 5-5m-5 5V3"/></svg> DOWNLOAD_EXCEL
+                    </a>
+                </div>
+                <div class="report-card">
+                    <div class="card-header-bar">
+                        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="report-header">
+                            <div class="report-icon">📋</div>
+                            <div class="report-title">Modal Tahapan</div>
+                        </div>
+                        <div class="report-desc">Realisasi pengadaan barang modal/aset per tahapan.</div>
+                    </div>
+                    <div class="card-actions" style="display:flex; gap:5px; padding: 0 25px 25px;">
+                        <button class="report-link" style="flex:1" onclick="downloadReport('/export/realisasi-modal-tahapan?tahun=' + document.getElementById('tahunGlobal').value + '&tahapan=1')">T1</button>
+                        <button class="report-link" style="flex:1" onclick="downloadReport('/export/realisasi-modal-tahapan?tahun=' + document.getElementById('tahunGlobal').value + '&tahapan=2')">T2</button>
+                        <button class="report-link" style="flex:1" onclick="downloadReport('/export/realisasi-modal-tahapan?tahun=' + document.getElementById('tahunGlobal').value + '&tahapan=3')">T3</button>
+                    </div>
+                </div>
+                <div class="report-card">
+                    <div class="card-header-bar">
+                        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="report-header">
+                            <div class="report-icon">🛠️</div>
+                            <div class="report-title">Modal Tahunan</div>
+                        </div>
+                        <div class="report-desc">Inventory aset tetap dan barang modal yang diakuisisi (Yearly).</div>
+                    </div>
+                    <a href="#" class="report-link" onclick="downloadReport('/export/realisasi-modal-tahunan?tahun=' + document.getElementById('tahunGlobal').value)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4m4-10l5 5 5-5m-5 5V3"/></svg> DOWNLOAD_EXCEL
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- BUKU PEMBANTU OBJEK -->
+        <section id="bpobjek">
+            <div class="section-header">
+                <h2>Buku Objek</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="reports-grid">
+                <div class="report-card">
+                    <div class="card-header-bar">
+                        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="report-header">
+                            <div class="report-icon">📅</div>
+                            <div class="report-title">BP Objek Bulanan</div>
+                        </div>
+                        <div class="report-desc">Buku pembantu rincian objek belanja per bulan.</div>
+                    </div>
+                    <a href="#" class="report-link" onclick="downloadReport('/export/bpobjek-bulanan?tahun=' + document.getElementById('tahunGlobal').value + '&bulan=' + document.getElementById('bulanGlobal').value)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4m4-10l5 5 5-5m-5 5V3"/></svg> DOWNLOAD_EXCEL
+                    </a>
+                </div>
+                <div class="report-card">
+                    <div class="card-header-bar">
+                        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="report-header">
+                            <div class="report-icon">📋</div>
+                            <div class="report-title">BP Objek Tahapan</div>
+                        </div>
+                        <div class="report-desc">Buku pembantu rincian objek belanja per tahapan.</div>
+                    </div>
+                    <div class="card-actions" style="display:flex; gap:5px; padding: 0 25px 25px;">
+                        <button class="report-link" style="flex:1" onclick="downloadReport('/export/bpobjek-tahapan?tahun=' + document.getElementById('tahunGlobal').value + '&tahapan=1')">T1</button>
+                        <button class="report-link" style="flex:1" onclick="downloadReport('/export/bpobjek-tahapan?tahun=' + document.getElementById('tahunGlobal').value + '&tahapan=2')">T2</button>
+                        <button class="report-link" style="flex:1" onclick="downloadReport('/export/bpobjek-tahapan?tahun=' + document.getElementById('tahunGlobal').value + '&tahapan=3')">T3</button>
+                    </div>
+                </div>
+                <div class="report-card">
+                    <div class="card-header-bar">
+                        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="report-header">
+                            <div class="report-icon">📝</div>
+                            <div class="report-title">BP Objek Tahunan</div>
+                        </div>
+                        <div class="report-desc">Rincian belanja berdasarkan kode objek anggaran (Yearly).</div>
+                    </div>
+                    <a href="#" class="report-link" onclick="downloadReport('/export/bpobjek-tahunan?tahun=' + document.getElementById('tahunGlobal').value)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4m4-10l5 5 5-5m-5 5V3"/></svg> DOWNLOAD_EXCEL
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- BOSP -->
+        <section id="bosp">
+            <div class="section-header">
+                <h2>Laporan BOSP</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="reports-grid">
+                <div class="report-card">
+                    <div class="card-header-bar">
+                        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="report-header">
+                            <div class="report-icon">📅</div>
+                            <div class="report-title">BOSP Semester</div>
+                        </div>
+                        <div class="report-desc">Laporan Realisasi BOSP per Semester (I / II).</div>
+                    </div>
+                    <div class="card-actions" style="display:flex; gap:5px; padding: 0 25px 25px;">
+                        <button class="report-link" style="flex:1" onclick="downloadReport('/export/bosp-semester?tahun=' + document.getElementById('tahunGlobal').value + '&semester=1')">Sem 1</button>
+                        <button class="report-link" style="flex:1" onclick="downloadReport('/export/bosp-semester?tahun=' + document.getElementById('tahunGlobal').value + '&semester=2')">Sem 2</button>
+                    </div>
+                </div>
+                <div class="report-card">
+                    <div class="card-header-bar">
+                        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="report-header">
+                            <div class="report-icon">💎</div>
+                            <div class="report-title">BOSP Tahunan</div>
+                        </div>
+                        <div class="report-desc">Laporan Realisasi BOSP Tahunan untuk pelaporan resmi.</div>
+                    </div>
+                    <a href="#" class="report-link" onclick="downloadReport('/export/bosp-tahunan?tahun=' + document.getElementById('tahunGlobal').value)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4m4-10l5 5 5-5m-5 5V3"/></svg> DOWNLOAD_EXCEL
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Cyber Console / Terminal -->
+    <div class="cyber-console" id="terminal">
+        <div class="console-header">
+            <span>Terminal Access: ARKAS_INTEL_STREAM</span>
+            <span id="system-clock">00:00:00</span>
+        </div>
+        <div id="log-container">
+            <div class="log-entry system">[SYSTEM] Root access granted. Initializing bypass protocols...</div>
+            <div class="log-entry success">[OK] Connection to ARKAS_DB established via secure tunnel.</div>
+        </div>
+    </div>
+
+    <script>
+        function downloadReport(url) {
+            addLog(`[ACTION] Initializing download request: ${url}`, 'system');
+            addLog(`[PROCESS] Bypassing database encryption keys...`, 'warning');
+            setTimeout(() => {
+                addLog(`[SUCCESS] Data stream intercepted successfully. Executing export.`, 'success');
+                window.location.href = url;
+            }, 1000);
+        }
+
+        // Matrix Animation Logic
+        const canvas = document.getElementById('matrix-bg');
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789$#@%&*';
+        const fontSize = 14;
+        const columns = width / fontSize;
+        const drops = Array(Math.floor(columns)).fill(1);
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(5, 5, 6, 0.05)';
+            ctx.fillRect(0, 0, width, height);
+            ctx.fillStyle = '#00ff41';
+            ctx.font = fontSize + 'px monospace';
+            for (let i = 0; i < drops.length; i++) {
+                const text = characters.charAt(Math.floor(Math.random() * characters.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                if (drops[i] * fontSize > height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            }
+        }
+        setInterval(drawMatrix, 50);
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+
+        // Logger Logic
+        const logContainer = document.getElementById('log-container');
+        function addLog(message, type = '') {
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${type}`;
+            const time = new Date().toLocaleTimeString();
+            entry.innerText = `[${time}] ${message}`;
+            logContainer.appendChild(entry);
+            if (logContainer.children.length > 6) {
+                logContainer.removeChild(logContainer.firstChild);
+            }
+        }
+
+        // Auto-simulation logs
+        const simMessages = [
+            { msg: "Intercepting encrypted packets...", type: "" },
+            { msg: "Bypassing SQLCipher security layer...", type: "warning" },
+            { msg: "Decrypted: mst_sekolah metadata acquired.", type: "success" },
+            { msg: "Mapping database schema: rapt_bku...", type: "system" },
+            { msg: "Heartbeat detected: ARKAS_ID_0982-X", type: "" },
+            { msg: "Bypassing firewall rules...", type: "warning" }
+        ];
+
+        setInterval(() => {
+            const rand = simMessages[Math.floor(Math.random() * simMessages.length)];
+            addLog(rand.msg, rand.type);
+        }, 4000);
+
+        setInterval(() => {
+            document.getElementById('system-clock').innerText = new Date().toLocaleTimeString();
+        }, 1000);
+
+        // Hex Decor Animation
+        const hexDecor = document.getElementById('hex-decor');
+        setInterval(() => {
+            const hexParts = [];
+            for(let i=0; i<7; i++) {
+                hexParts.push('0x' + Math.floor(Math.random() * 256).toString(16).toUpperCase().padStart(2, '0'));
+            }
+            hexDecor.innerText = hexParts.join(' ');
+        }, 3000);
+
+        // Typing Effect for subtitles
+        const subtitles = document.querySelectorAll('.page-subtitle span');
+        subtitles.forEach((el, index) => {
+            const text = el.innerText;
+            el.innerText = '';
+            setTimeout(() => {
+                let i = 0;
+                const timer = setInterval(() => {
+                    if (i < text.length) {
+                        el.innerText += text.charAt(i);
+                        i++;
+                    } else {
+                        clearInterval(timer);
+                    }
+                }, 50);
+            }, index * 1000);
+        });
+
+        // Smooth scroll and active state
+        const navLinks = document.querySelectorAll('.nav-link');
+        const sections = document.querySelectorAll('section');
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const target = document.querySelector(targetId);
+                
+                navLinks.forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+
+                if(target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Update active link on scroll
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

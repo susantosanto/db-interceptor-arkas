@@ -1,0 +1,11 @@
+# ARKASu Data - Requirements
+# ==========================
+
+# Flask Web Framework
+flask>=2.3.0
+
+# SQLCipher untuk database terenkripsi
+sqlcipher3>=0.5.0
+
+# Excel Export
+openpyxl>=3.0.0
