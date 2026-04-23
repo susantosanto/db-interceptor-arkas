@@ -112,7 +112,7 @@ def get_list_anggaran():
     rows = query_arkas("""
         SELECT id_anggaran, tahun_anggaran, jumlah 
         FROM anggaran 
-        WHERE soft_delete = 0 
+         
         ORDER BY tahun_anggaran DESC
     """)
     # Hapus duplikat berdasarkan tahun_anggaran
@@ -129,7 +129,7 @@ def get_anggaran_terbaru():
     rows = query_arkas("""
         SELECT id_anggaran, tahun_anggaran, jumlah 
         FROM anggaran 
-        WHERE soft_delete = 0 
+         
         ORDER BY create_date DESC LIMIT 1
     """)
     return rows[0] if rows else None
@@ -146,187 +146,163 @@ def get_rapbs(id_anggaran):
     """)
 
 def get_kas_umum(limit=None, tahun=None, bulan=None):
-    """Ambil data Kas Umum dengan filter"""
-    # Struktur tabel ARKAS: tanggal_transaksi, bukan 'tanggal'
-    where_clause = " WHERE soft_delete = 0"
+    """Ambil data Kas Umum dengan JOIN ref_bku untuk status"""
+    where_clause = " WHERE k.tanggal_transaksi IS NOT NULL"
     
     if tahun:
-        where_clause += f" AND CAST(strftime('%Y', tanggal_transaksi) AS INTEGER) = {tahun}"
+        where_clause += f" AND CAST(strftime('%Y', k.tanggal_transaksi) AS INTEGER) = {tahun}"
     if bulan:
-        where_clause += f" AND CAST(strftime('%m', tanggal_transaksi) AS INTEGER) = {bulan}"
+        where_clause += f" AND CAST(strftime('%m', k.tanggal_transaksi) AS INTEGER) = {bulan}"
     
-    # Kolom: tanggal_transaksi, uraian, saldo, status_bku
-    query = f"""
-        SELECT tanggal_transaksi, uraian, saldo, status_bku, no_bukti
-        FROM kas_umum 
+    # JOIN dengan ref_bku untuk dapat nama status
+    return query_arkas(f"""
+        SELECT k.tanggal_transaksi, r.bku as status, k.uraian, k.saldo, k.no_bukti
+        FROM kas_umum k
+        LEFT JOIN ref_bku r ON k.id_ref_bku = r.id_ref_bku
         {where_clause}
-        ORDER BY tanggal_transaksi DESC
-    """
-    
-    if limit:
-        query += f" LIMIT {limit}"
-    
-    return query_arkas(query)
+        ORDER BY k.tanggal_transaksi DESC
+    """)
 
 def get_kas_bank(bulan=None, tahun=None):
-    """Ambil data Kas Pembantu Bank dari rpt_bku"""
-    # Gunakan tabel rpt_bku sebagai ganti kas_pembantu_bank
-    where_clause = " WHERE soft_delete = 0"
+    """Ambil data Kas Pembantu Bank (ref_bku id 2=Terima Dana BOS, 8=Saldo Awal Bank)"""
+    where_clause = " WHERE k.id_ref_bku IN (2, 8)"
+    
     if tahun:
-        where_clause += f" AND CAST(strftime('%Y', tanggal_transaksi) AS INTEGER) = {tahun}"
+        where_clause += f" AND CAST(strftime('%Y', k.tanggal_transaksi) AS INTEGER) = {tahun}"
     if bulan:
-        where_clause += f" AND CAST(strftime('%m', tanggal_transaksi) AS INTEGER) = {bulan}"
+        where_clause += f" AND CAST(strftime('%m', k.tanggal_transaksi) AS INTEGER) = {bulan}"
     
     return query_arkas(f"""
-        SELECT tanggal_transaksi, uraian, saldo, status_bku, no_bukti
-        FROM rpt_bku
+        SELECT k.tanggal_transaksi, r.bku as status, k.uraian, k.saldo, k.no_bukti
+        FROM kas_umum k
+        LEFT JOIN ref_bku r ON k.id_ref_bku = r.id_ref_bku
         {where_clause}
-        ORDER BY tanggal_transaksi DESC
+        ORDER BY k.tanggal_transaksi DESC
     """)
 
 def get_kas_pajak(bulan=None, tahun=None):
-    """Ambil data Kas Pembantu Pajak dari rpt_bku"""
-    # Gunakan tabel rpt_bku untuk pajak
-    where_clause = " WHERE soft_delete = 0 AND uraian LIKE '%pajak%'"
+    """Ambil data Kas Pembantu Pajak (ref_bku id 7=Pajak Bunga, 10=Pajak Belanja Terima)"""
+    where_clause = " WHERE k.id_ref_bku IN (7, 10)"
+    
     if tahun:
-        where_clause += f" AND CAST(strftime('%Y', tanggal_transaksi) AS INTEGER) = {tahun}"
+        where_clause += f" AND CAST(strftime('%Y', k.tanggal_transaksi) AS INTEGER) = {tahun}"
     if bulan:
-        where_clause += f" AND CAST(strftime('%m', tanggal_transaksi) AS INTEGER) = {bulan}"
+        where_clause += f" AND CAST(strftime('%m', k.tanggal_transaksi) AS INTEGER) = {bulan}"
     
     return query_arkas(f"""
-        SELECT tanggal_transaksi, uraian, saldo, status_bku, no_bukti
-        FROM rpt_bku
+        SELECT k.tanggal_transaksi, r.bku as status, k.uraian, k.saldo, k.no_bukti
+        FROM kas_umum k
+        LEFT JOIN ref_bku r ON k.id_ref_bku = r.id_ref_bku
         {where_clause}
-        ORDER BY tanggal_transaksi DESC
+        ORDER BY k.tanggal_transaksi DESC
     """)
 
 def get_kas_tunai(bulan=None, tahun=None):
-    """Ambil data Kas Pembantu Tunai dari rpt_bku"""
-    # Gunakan tabel rpt_bku
-    where_clause = " WHERE soft_delete = 0"
+    """Ambil data Kas Pembantu Tunai (ref_bku id 3=Tarik Tunai, 5=Setor Tunai, 9=Saldo Awal Tunai)"""
+    where_clause = " WHERE k.id_ref_bku IN (3, 5, 9)"
+    
     if tahun:
-        where_clause += f" AND CAST(strftime('%Y', tanggal_transaksi) AS INTEGER) = {tahun}"
+        where_clause += f" AND CAST(strftime('%Y', k.tanggal_transaksi) AS INTEGER) = {tahun}"
     if bulan:
-        where_clause += f" AND CAST(strftime('%m', tanggal_transaksi) AS INTEGER) = {bulan}"
+        where_clause += f" AND CAST(strftime('%m', k.tanggal_transaksi) AS INTEGER) = {bulan}"
     
     return query_arkas(f"""
-        SELECT tanggal_transaksi, uraian, saldo, status_bku, no_bukti
-        FROM rpt_bku
+        SELECT k.tanggal_transaksi, r.bku as status, k.uraian, k.saldo, k.no_bukti
+        FROM kas_umum k
+        LEFT JOIN ref_bku r ON k.id_ref_bku = r.id_ref_bku
         {where_clause}
-        ORDER BY tanggal_transaksi DESC
+        ORDER BY k.tanggal_transaksi DESC
     """)
 
 def get_kertas_kerja(tahun=None, tahapan=None):
-    """Ambil data Kertas Kerja"""
-    where_clause = " WHERE soft_delete = 0"
+    """Ambil data Kertas Kerja dari rapbs"""
+    where_clause = " WHERE 1=1"
     if tahun:
-        where_clause += f" AND tahun_anggaran = '{tahun}'"
-    if tahapan:
-        where_clause += f" AND tahapan = '{tahapan}'"
+        where_clause += f" AND id_ref_tahun_anggaran = {tahun}"
+    # Note: rapbs doesn't have 'tahapan' column - this is just for compatibility
     
     return query_arkas(f"""
-        SELECT kode_rekening, uraian, volume, satuan, harga_satuan, jumlah, tahapan
-        FROM kertas_kerja
+        SELECT kode_rekening, uraian, volume, satuan, jumlah
+        FROM rapbs
         {where_clause}
-        ORDER BY kode_rekering
+        ORDER BY kode_rekening
     """)
 
 def get_rkas(tahun=None, tahapan=None):
-    """Ambil data RKAS"""
-    where_clause = " WHERE soft_delete = 0"
+    """Ambil data RKAS dari rapbs"""
+    where_clause = " WHERE 1=1"
     if tahun:
-        where_clause += f" AND tahun_anggaran = '{tahun}'"
-    if tahapan:
-        where_clause += f" AND tahapan = '{tahapan}'"
+        where_clause += f" AND id_ref_tahun_anggaran = {tahun}"
     
     return query_arkas(f"""
-        SELECT kode_rekening, uraian, volume, satuan, harga_satuan, jumlah, tahapan
-        FROM rkas
+        SELECT kode_rekening, uraian, volume, satuan, jumlah
+        FROM rapbs
         {where_clause}
         ORDER BY kode_rekening
     """)
 
 def get_realisasi(tahun=None, bulan=None, tahapan=None):
-    """Ambil data Realisasi"""
-    where_clause = " WHERE soft_delete = 0"
-    if tahun:
-        where_clause += f" AND tahun_anggaran = '{tahun}'"
-    if bulan:
-        where_clause += f" AND bulan = '{bulan:02d}'"
-    if tahapan:
-        where_clause += f" AND tahapan = '{tahapan}'"
+    """Ambil data Realisasi - anggaran + rapbs dengan total realisasi dari kas_umum"""
+    where_clause = " WHERE a.tahun_anggaran = " + str(tahun) if tahun else " WHERE a.tahun_anggaran IS NOT NULL"
     
     return query_arkas(f"""
-        SELECT kode_rekening, uraian, anggaran, realisasi, selisih
-        FROM realisasi
+        SELECT r.kode_rekening, r.uraian, a.jumlah as anggaran, 
+               COALESCE((SELECT SUM(k.saldo) FROM kas_umum k WHERE k.id_anggaran = a.id_anggaran AND k.soft_delete = 0), 0) as realisasi,
+               a.jumlah - COALESCE((SELECT SUM(k.saldo) FROM kas_umum k WHERE k.id_anggaran = a.id_anggaran AND k.soft_delete = 0), 0) as selisih
+        FROM anggaran a
+        LEFT JOIN rapbs r ON a.id_anggaran = r.id_anggaran
         {where_clause}
-        ORDER BY kode_rekening
+        ORDER BY r.kode_rekening
     """)
 
 def get_realisasi_barang_habis(tahun=None, bulan=None, tahapan=None):
-    """Ambil data Realisasi Barang Habis Pakai"""
-    where_clause = " WHERE soft_delete = 0"
+    """Ambil data Realisasi Barang Habis Pakai - filtered from rapbs (prefix 5.1.02.01 = supplies)"""
     if tahun:
-        where_clause += f" AND tahun_anggaran = '{tahun}'"
-    if bulan:
-        where_clause += f" AND bulan = '{bulan:02d}'"
-    if tahapan:
-        where_clause += f" AND tahapan = '{tahapan}'"
-    
-    return query_arkas(f"""
-        SELECT kode_rekening, uraian, volume, satuan, harga_satuan, jumlah, jenis_barang
-        FROM realisasi_barang_habis
-        {where_clause}
-        ORDER BY kode_rekening
-    """)
+        return query_arkas(f"""
+            SELECT kode_rekening, uraian, volume, satuan, jumlah
+            FROM rapbs 
+            WHERE id_ref_tahun_anggaran = {tahun}
+            AND SUBSTR(kode_rekening, 1, 9) LIKE '5.1.02.01%'
+            ORDER BY kode_rekening
+        """)
+    return []
 
 def get_realisasi_barang_modal(tahun=None, bulan=None, tahapan=None):
-    """Ambil data Realisasi Barang Modal/Aset"""
-    where_clause = " WHERE soft_delete = 0"
+    """Ambil data Realisasi Barang Modal/Aset - filtered from rapbs (prefix 5.1.02.02 = modal)"""
     if tahun:
-        where_clause += f" AND tahun_anggaran = '{tahun}'"
-    if bulan:
-        where_clause += f" AND bulan = '{bulan:02d}'"
-    if tahapan:
-        where_clause += f" AND tahapan = '{tahapan}'"
-    
-    return query_arkas(f"""
-        SELECT kode_rekening, uraian, volume, satuan, harga_satuan, jumlah, merk, no_kartu
-        FROM realisasi_barang_modal
-        {where_clause}
-        ORDER BY kode_rekening
-    """)
+        return query_arkas(f"""
+            SELECT kode_rekening, uraian, volume, satuan, jumlah
+            FROM rapbs 
+            WHERE id_ref_tahun_anggaran = {tahun}
+            AND SUBSTR(kode_rekening, 1, 9) LIKE '5.1.02.02%'
+            ORDER BY kode_rekening
+        """)
+    return []
 
 def get_buku_pembantu_objek(tahun=None, bulan=None, tahapan=None):
-    """Ambil data Buku Pembantu Rincian Objek Belanja"""
-    where_clause = " WHERE soft_delete = 0"
+    """Ambil data Buku Pembantu Rincian Objek Belanja - grouped from rapbs (one row per kode_rekening)"""
     if tahun:
-        where_clause += f" AND tahun_anggaran = '{tahun}'"
-    if bulan:
-        where_clause += f" AND bulan = '{bulan:02d}'"
-    if tahapan:
-        where_clause += f" AND tahapan = '{tahapan}'"
-    
-    return query_arkas(f"""
-        SELECT kode_rekening, uraian, volume, satuan, harga_satuan, jumlah
-        FROM buku_pembantu_objek
-        {where_clause}
-        ORDER BY kode_rekening
-    """)
+        return query_arkas(f"""
+            SELECT kode_rekening, MAX(uraian) as uraian, SUM(volume) as volume, MAX(satuan) as satuan, SUM(jumlah) as jumlah
+            FROM rapbs WHERE id_ref_tahun_anggaran = {tahun}
+            GROUP BY kode_rekening
+            ORDER BY kode_rekening
+        """)
+    return []
 
 def get_laporan_bosp(tahun=None, semester=None):
-    """Ambil data Laporan BOSP"""
-    where_clause = " WHERE soft_delete = 0"
-    if tahun:
-        where_clause += f" AND tahun_anggaran = '{tahun}'"
-    if semester:
-        where_clause += f" AND semester = '{semester}'"
+    """Ambil data Laporan BOSP - ringkasan anggaran per tahun"""
+    where_clause = " WHERE a.tahun_anggaran = " + str(tahun) if tahun else " WHERE a.tahun_anggaran IS NOT NULL"
     
     return query_arkas(f"""
-        SELECT uraian, anggaran, realisasi, selisih, kategori
-        FROM laporan_bosp
+        SELECT a.tahun_anggaran as tahun, a.jumlah as total_anggaran, 
+               COALESCE((SELECT SUM(k.saldo) FROM kas_umum k WHERE k.id_anggaran = a.id_anggaran AND k.soft_delete = 0), 0) as total_realisasi,
+               a.jumlah - COALESCE((SELECT SUM(k.saldo) FROM kas_umum k WHERE k.id_anggaran = a.id_anggaran AND k.soft_delete = 0), 0) as selisih,
+               CASE WHEN a.is_approve = 1 THEN 'Approved' ELSE 'Pending' END as status
+        FROM anggaran a
         {where_clause}
-        ORDER BY kategori, kode_rekening
+        GROUP BY a.tahun_anggaran
+        ORDER BY a.tahun_anggaran
     """)
 
 # === EXPORT FUNCTIONS ===
@@ -446,7 +422,7 @@ def export_bku_tahunan():
     """Export Buku Kas Umum Tahunan"""
     tahun = request.args.get('tahun')
     data = get_kas_umum(tahun=tahun)
-    headers = ['Tanggal', 'Uraian', 'Saldo', 'Status', 'No. Bukti']
+    headers = ['Tanggal', 'Status', 'Uraian', 'Saldo', 'No. Bukti']
     
     output = export_to_excel(
         data, headers, 
@@ -463,7 +439,7 @@ def export_bku_bulanan():
     tahun = request.args.get('tahun')
     bulan = request.args.get('bulan', type=int)
     data = get_kas_umum(tahun=tahun, bulan=bulan)
-    headers = ['Tanggal', 'Uraian', 'Saldo', 'Status', 'No. Bukti']
+    headers = ['Tanggal', 'Status', 'Uraian', 'Saldo', 'No. Bukti']
     
     bulan_nama = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
                   'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember']
@@ -485,7 +461,7 @@ def export_kas_bank_bulanan():
     tahun = request.args.get('tahun')
     bulan = request.args.get('bulan', type=int)
     data = get_kas_bank(tahun=tahun, bulan=bulan)
-    headers = ['Tanggal', 'Uraian', 'Saldo', 'Status', 'No. Bukti']
+    headers = ['Tanggal', 'Status', 'Uraian', 'Saldo', 'No. Bukti']
     
     bulan_nama = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
                   'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember']
@@ -507,7 +483,7 @@ def export_kas_pajak_bulanan():
     tahun = request.args.get('tahun')
     bulan = request.args.get('bulan', type=int)
     data = get_kas_pajak(tahun=tahun, bulan=bulan)
-    headers = ['Tanggal', 'Uraian', 'Saldo', 'Status', 'No. Bukti']
+    headers = ['Tanggal', 'Status', 'Uraian', 'Saldo', 'No. Bukti']
     
     bulan_nama = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
                   'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember']
@@ -529,7 +505,7 @@ def export_kas_tunai_bulanan():
     tahun = request.args.get('tahun')
     bulan = request.args.get('bulan', type=int)
     data = get_kas_tunai(tahun=tahun, bulan=bulan)
-    headers = ['Tanggal', 'Uraian', 'Saldo', 'Status', 'No. Bukti']
+    headers = ['Tanggal', 'Status', 'Uraian', 'Saldo', 'No. Bukti']
     
     bulan_nama = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
                   'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember']
@@ -550,7 +526,7 @@ def export_kk_tahunan():
     """Export Rincian Kertas Kerja Tahunan"""
     tahun = request.args.get('tahun')
     data = get_kertas_kerja(tahun=tahun)
-    headers = ['Kode Rekening', 'Uraian', 'Volume', 'Satuan', 'Harga Satuan', 'Jumlah', 'Tahapan']
+    headers = ['Kode Rekening', 'Uraian', 'Volume', 'Satuan', 'Jumlah']
     
     output = export_to_excel(
         data, headers,
@@ -567,7 +543,7 @@ def export_kk_tahapan():
     tahun = request.args.get('tahun')
     tahapan = request.args.get('tahapan')
     data = get_kertas_kerja(tahun=tahun, tahapan=tahapan)
-    headers = ['Kode Rekening', 'Uraian', 'Volume', 'Satuan', 'Harga Satuan', 'Jumlah', 'Tahapan']
+    headers = ['Kode Rekening', 'Uraian', 'Volume', 'Satuan', 'Jumlah']
     
     output = export_to_excel(
         data, headers,
@@ -584,7 +560,7 @@ def export_kk_bulanan():
     tahun = request.args.get('tahun')
     # Untuk bulanan bisa ditambahkan filter bulan
     data = get_kertas_kerja(tahun=tahun)
-    headers = ['Kode Rekening', 'Uraian', 'Volume', 'Satuan', 'Harga Satuan', 'Jumlah', 'Tahapan']
+    headers = ['Kode Rekening', 'Uraian', 'Volume', 'Satuan', 'Jumlah']
     
     output = export_to_excel(
         data, headers,
@@ -601,7 +577,7 @@ def export_rkas_tahunan():
     """Export Rincian RKAS Tahunan"""
     tahun = request.args.get('tahun')
     data = get_rkas(tahun=tahun)
-    headers = ['Kode Rekening', 'Uraian', 'Volume', 'Satuan', 'Harga Satuan', 'Jumlah', 'Tahapan']
+    headers = ['Kode Rekening', 'Uraian', 'Volume', 'Satuan', 'Jumlah']
     
     output = export_to_excel(
         data, headers,
@@ -618,7 +594,7 @@ def export_rkas_tahapan():
     tahun = request.args.get('tahun')
     tahapan = request.args.get('tahapan')
     data = get_rkas(tahun=tahun, tahapan=tahapan)
-    headers = ['Kode Rekening', 'Uraian', 'Volume', 'Satuan', 'Harga Satuan', 'Jumlah', 'Tahapan']
+    headers = ['Kode Rekening', 'Uraian', 'Volume', 'Satuan', 'Jumlah']
     
     output = export_to_excel(
         data, headers,
@@ -691,7 +667,7 @@ def export_realisasi_bhp_bulanan():
     tahun = request.args.get('tahun')
     bulan = request.args.get('bulan', type=int)
     data = get_realisasi_barang_habis(tahun=tahun, bulan=bulan)
-    headers = ['Kode Rekening', 'Uraian', 'Volume', 'Satuan', 'Harga Satuan', 'Jumlah', 'Jenis Barang']
+    headers = ['Kode Rekening', 'Uraian', 'Volume', 'Satuan', 'Jumlah']
     
     bulan_nama = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
                   'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember']
@@ -712,7 +688,7 @@ def export_realisasi_bhp_tahapan():
     tahun = request.args.get('tahun')
     tahapan = request.args.get('tahapan')
     data = get_realisasi_barang_habis(tahun=tahun, tahapan=tahapan)
-    headers = ['Kode Rekening', 'Uraian', 'Volume', 'Satuan', 'Harga Satuan', 'Jumlah', 'Jenis Barang']
+    headers = ['Kode Rekening', 'Uraian', 'Volume', 'Satuan', 'Jumlah']
     
     output = export_to_excel(
         data, headers,
@@ -728,7 +704,7 @@ def export_realisasi_bhp_tahunan():
     """Export Realisasi Barang Habis Pakai Tahunan"""
     tahun = request.args.get('tahun')
     data = get_realisasi_barang_habis(tahun=tahun)
-    headers = ['Kode Rekening', 'Uraian', 'Volume', 'Satuan', 'Harga Satuan', 'Jumlah', 'Jenis Barang']
+    headers = ['Kode Rekening', 'Uraian', 'Volume', 'Satuan', 'Jumlah']
     
     output = export_to_excel(
         data, headers,
@@ -746,7 +722,7 @@ def export_realisasi_modal_bulanan():
     tahun = request.args.get('tahun')
     bulan = request.args.get('bulan', type=int)
     data = get_realisasi_barang_modal(tahun=tahun, bulan=bulan)
-    headers = ['Kode Rekening', 'Uraian', 'Volume', 'Satuan', 'Harga Satuan', 'Jumlah', 'Merk', 'No. Kartu']
+    headers = ['Kode Rekening', 'Uraian', 'Volume', 'Satuan', 'Jumlah']
     
     bulan_nama = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
                   'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember']
@@ -767,7 +743,7 @@ def export_realisasi_modal_tahapan():
     tahun = request.args.get('tahun')
     tahapan = request.args.get('tahapan')
     data = get_realisasi_barang_modal(tahun=tahun, tahapan=tahapan)
-    headers = ['Kode Rekening', 'Uraian', 'Volume', 'Satuan', 'Harga Satuan', 'Jumlah', 'Merk', 'No. Kartu']
+    headers = ['Kode Rekening', 'Uraian', 'Volume', 'Satuan', 'Jumlah']
     
     output = export_to_excel(
         data, headers,
@@ -783,7 +759,7 @@ def export_realisasi_modal_tahunan():
     """Export Realisasi Barang Modal/Aset Tahunan"""
     tahun = request.args.get('tahun')
     data = get_realisasi_barang_modal(tahun=tahun)
-    headers = ['Kode Rekening', 'Uraian', 'Volume', 'Satuan', 'Harga Satuan', 'Jumlah', 'Merk', 'No. Kartu']
+    headers = ['Kode Rekening', 'Uraian', 'Volume', 'Satuan', 'Jumlah']
     
     output = export_to_excel(
         data, headers,
@@ -801,7 +777,7 @@ def export_bpobjek_bulanan():
     tahun = request.args.get('tahun')
     bulan = request.args.get('bulan', type=int)
     data = get_buku_pembantu_objek(tahun=tahun, bulan=bulan)
-    headers = ['Kode Rekening', 'Uraian', 'Volume', 'Satuan', 'Harga Satuan', 'Jumlah']
+    headers = ['Kode Rekening', 'Uraian', 'Volume Total', 'Satuan', 'Jumlah Total']
     
     bulan_nama = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
                   'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember']
@@ -822,7 +798,7 @@ def export_bpobjek_tahapan():
     tahun = request.args.get('tahun')
     tahapan = request.args.get('tahapan')
     data = get_buku_pembantu_objek(tahun=tahun, tahapan=tahapan)
-    headers = ['Kode Rekening', 'Uraian', 'Volume', 'Satuan', 'Harga Satuan', 'Jumlah']
+    headers = ['Kode Rekening', 'Uraian', 'Volume Total', 'Satuan', 'Jumlah Total']
     
     output = export_to_excel(
         data, headers,
@@ -838,7 +814,7 @@ def export_bpobjek_tahunan():
     """Export Buku Pembantu Rincian Objek Belanja Tahunan"""
     tahun = request.args.get('tahun')
     data = get_buku_pembantu_objek(tahun=tahun)
-    headers = ['Kode Rekening', 'Uraian', 'Volume', 'Satuan', 'Harga Satuan', 'Jumlah']
+    headers = ['Kode Rekening', 'Uraian', 'Volume Total', 'Satuan', 'Jumlah Total']
     
     output = export_to_excel(
         data, headers,
@@ -856,7 +832,7 @@ def export_bosp_semester():
     tahun = request.args.get('tahun')
     semester = request.args.get('semester')
     data = get_laporan_bosp(tahun=tahun, semester=semester)
-    headers = ['Uraian', 'Anggaran', 'Realisasi', 'Selisih', 'Kategori']
+    headers = ['Tahun', 'Total Anggaran', 'Total Realisasi', 'Selisih', 'Status']
     
     output = export_to_excel(
         data, headers,
@@ -872,7 +848,7 @@ def export_bosp_tahunan():
     """Export Laporan BOSP Tahunan"""
     tahun = request.args.get('tahun')
     data = get_laporan_bosp(tahun=tahun)
-    headers = ['Uraian', 'Anggaran', 'Realisasi', 'Selisih', 'Kategori']
+    headers = ['Tahun', 'Total Anggaran', 'Total Realisasi', 'Selisih', 'Status']
     
     output = export_to_excel(
         data, headers,
