@@ -1,0 +1,53 @@
+===========================================================
+    PANDUAN INSTALASI & PENGGUNAAN ARKASU DATA
+===========================================================
+Dikembangkan oleh: SANTO X/CODE
+Lokasi: SD Negeri Pasirhalang
+-----------------------------------------------------------
+
+PENTING: 
+Dilarang mengubah atau menghapus file berakhiran .py (Python) 
+atau .html (Halaman Web) di dalam folder ini. Perubahan 
+kecil sekalipun dapat menyebabkan aplikasi ERROR/RUSAK.
+
+-----------------------------------------------------------
+LANGKAH-LANGKAH MENJALANKAN DI LAPTOP LAIN:
+-----------------------------------------------------------
+
+1. INSTALASI PYTHON (Hanya dilakukan 1x)
+   - Download Python di: https://www.python.org/downloads/
+   - SAAT INSTALL: WAJIB Centang kotak "Add Python to PATH" 
+     sebelum menekan tombol Install Now.
+
+2. SETTING ALAMAT DATABASE (Jika folder ARKAS berbeda)
+   - Cari file bernama "config.json" di dalam folder ini.
+   - Klik kanan file "config.json", pilih Open With > Notepad.
+   - Ubah tulisan di baris "db_path" sesuai lokasi database
+     ARKAS Anda. 
+     Contoh standar: "C:\\Users\\NAMA_LAPTOP\\AppData\\Roaming\\Arkas\\arkas.db"
+     (Gunakan tanda \\ dua kali seperti contoh di atas).
+   - Simpan (Ctrl+S) dan tutup Notepad.
+
+3. INSTALL BAHASA PEMROGRAMAN (Hanya dilakukan 1x)
+   - Buka folder aplikasi ini.
+   - Tekan tombol Shift + Klik Kanan di area kosong folder,
+     pilih "Open PowerShell window here" atau "Open Command Prompt".
+   - Ketik perintah berikut lalu tekan Enter:
+     pip install -r requirements.txt
+   - Tunggu sampai proses selesai 100%.
+
+4. MENJALANKAN APLIKASI
+   - Klik 2x pada file "app.py".
+   - Akan muncul jendela hitam (Terminal), biarkan terbuka.
+   - Buka Google Chrome atau browser lain, lalu ketik alamat:
+     http://localhost:5000
+   - Selamat! Aplikasi siap digunakan untuk menarik data ke Excel.
+
+-----------------------------------------------------------
+CATATAN:
+- Pastikan aplikasi ARKAS asli sedang tidak dibuka saat 
+  menjalankan aplikasi ini untuk menghindari bentrokan data.
+- Jika jendela hitam tertutup, aplikasi akan berhenti jalan.
+-----------------------------------------------------------
+Copyright (c) 2026 - SANTO X/CODE
+===========================================================

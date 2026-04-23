@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>[ ARKAS_DB ] Authorized: santo x/code</title>
+    <title>[ ARKAS_DB ] Authorized: <span id="page-title"></span></title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500;700&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
@@ -691,6 +691,17 @@
             .cyber-console { width: calc(100% - 80px); }
         }
     </style>
+    <script>
+        // Decode base64 architect name at runtime
+        function decodeArchitect() {
+            var encoded = "c2FudG8geC9jb2Rl"; // [encoded]
+            var decoded = atob(encoded);
+            document.getElementById("architect-name").textContent = "[ ARCHITECT: " + decoded + " ]";
+            document.getElementById("architect-title").textContent = "AUTH: ARCHITECT: " + decoded + " - VERIFIED.";
+            document.getElementById("page-title").textContent = decoded;
+        }
+        document.addEventListener('DOMContentLoaded', decodeArchitect);
+    </script>
 </head>
 <body>
     <canvas id="matrix-bg"></canvas>
@@ -767,7 +778,7 @@
                     </div>
                 </a>
 
-                <a href="#realisasi-bhp" class="nav-link nav-node">
+                <a href="#modal" class="nav-link nav-node">
                     <div class="node-indicator"></div>
                     <div class="node-content">
                         <div class="node-label">NODE_06: ASSET_SRV</div>
@@ -775,10 +786,18 @@
                     </div>
                 </a>
 
+                <a href="#bhp" class="nav-link nav-node">
+                    <div class="node-indicator"></div>
+                    <div class="node-content">
+                        <div class="node-label">NODE_07: BHP_SRV</div>
+                        <div class="node-meta">LATENCY: 16ms | STATUS: OK</div>
+                    </div>
+                </a>
+
                 <a href="#bpobjek" class="nav-link nav-node">
                     <div class="node-indicator"></div>
                     <div class="node-content">
-                        <div class="node-label">NODE_07: OBJEK_SRV</div>
+                        <div class="node-label">NODE_08: OBJEK_SRV</div>
                         <div class="node-meta">LATENCY: 18ms | STATUS: OK</div>
                     </div>
                 </a>
@@ -798,7 +817,7 @@
             <div><span class="status-dot"></span>SYS_ONLINE</div>
             <div>VER 2.1 premium</div>
             <div>BOSP_INTEL_SYSTEM</div>
-            <div style="margin-top: 10px; color: var(--hacker-green); opacity: 0.8; font-weight: bold;">[ ARCHITECT: santo x/code ]</div>
+            <div style="margin-top: 10px; color: var(--hacker-green); opacity: 0.8; font-weight: bold;" id="architect-name"></div>
         </div>
     </aside>
 
@@ -859,35 +878,163 @@
                 <div class="file-list">
                     <div class="file-row">
                         <span class="file-id">001</span><span class="file-perm">-rwx------</span>
-                        <span class="file-name">bku_tahunan_encrypted.xlsx</span>
+                        <span class="file-name">Buku Kas Umum Tahunan.xlsx</span>
                         <a href="#" class="file-action-btn" onclick="downloadReport('/export/bku-tahunan?tahun=' + document.getElementById('tahunGlobal').value)"></a>
                     </div>
                     <div class="file-row">
                         <span class="file-id">002</span><span class="file-perm">-rwx------</span>
-                        <span class="file-name">bku_bulanan_stream.xlsx</span>
+                        <span class="file-name">Buku Kas Umum Semester</span>
+                        <div class="phase-btns">
+                            <button class="phase-btn" onclick="downloadReport('/export/bku-semester?tahun=' + document.getElementById('tahunGlobal').value + '&tahapan=1')">SEM_1</button>
+                            <button class="phase-btn" onclick="downloadReport('/export/bku-semester?tahun=' + document.getElementById('tahunGlobal').value + '&tahapan=2')">SEM_2</button>
+                        </div>
+                    </div>
+                    <div class="file-row">
+                        <span class="file-id">003</span><span class="file-perm">-rwx------</span>
+                        <span class="file-name">Buku Kas Umum Bulanan.xlsx</span>
                         <a href="#" class="file-action-btn" onclick="downloadReport('/export/bku-bulanan?tahun=' + document.getElementById('tahunGlobal').value + '&bulan=' + document.getElementById('bulanGlobal').value)"></a>
                     </div>
                 </div>
             </section>
 
-            <!-- KAS PEMBANTU -->
+            <!-- KAS PEMBANTU BANK -->
             <section id="kas-bank" class="directory-section">
-                <div class="directory-header">/ARKAS/ROOT/KAS_PEMBANTU</div>
+                <div class="directory-header">/ARKAS/ROOT/KAS_PEMBANTU_BANK</div>
                 <div class="file-list">
                     <div class="file-row">
-                        <span class="file-id">010</span><span class="file-perm">-rwxr-xr-x</span>
-                        <span class="file-name">kas_bank_interceptor.xlsx</span>
+                        <span class="file-id">003</span><span class="file-perm">-rwxr-xr-x</span>
+                        <span class="file-name">Kas Pembantu Bank Tahunan.xlsx</span>
+                        <a href="#" class="file-action-btn" onclick="downloadReport('/export/kas-bank-tahunan?tahun=' + document.getElementById('tahunGlobal').value)"></a>
+                    </div>
+                    <div class="file-row">
+                        <span class="file-id">004</span><span class="file-perm">-rwxr-xr-x</span>
+                        <span class="file-name">Kas Pembantu Bank Semester</span>
+                        <div class="phase-btns">
+                            <button class="phase-btn" onclick="downloadReport('/export/kas-bank-semester?tahun=' + document.getElementById('tahunGlobal').value + '&tahapan=1')">SEM_1</button>
+                            <button class="phase-btn" onclick="downloadReport('/export/kas-bank-semester?tahun=' + document.getElementById('tahunGlobal').value + '&tahapan=2')">SEM_2</button>
+                        </div>
+                    </div>
+                    <div class="file-row">
+                        <span class="file-id">005</span><span class="file-perm">-rwxr-xr-x</span>
+                        <span class="file-name">Kas Pembantu Bank Bulanan.xlsx</span>
                         <a href="#" class="file-action-btn" onclick="downloadReport('/export/kas-bank-bulanan?tahun=' + document.getElementById('tahunGlobal').value + '&bulan=' + document.getElementById('bulanGlobal').value)"></a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- KAS PEMBANTU PAJAK -->
+            <section id="kas-pajak" class="directory-section">
+                <div class="directory-header">/ARKAS/ROOT/KAS_PEMBANTU_PAJAK</div>
+                <div class="file-list">
+                    <div class="file-row">
+                        <span class="file-id">006</span><span class="file-perm">-rwxr-xr-x</span>
+                        <span class="file-name">Kas Pembantu Pajak Tahunan.xlsx</span>
+                        <a href="#" class="file-action-btn" onclick="downloadReport('/export/kas-pajak-tahunan?tahun=' + document.getElementById('tahunGlobal').value)"></a>
+                    </div>
+                    <div class="file-row">
+                        <span class="file-id">007</span><span class="file-perm">-rwxr-xr-x</span>
+                        <span class="file-name">Kas Pembantu Pajak Semester</span>
+                        <div class="phase-btns">
+                            <button class="phase-btn" onclick="downloadReport('/export/kas-pajak-semester?tahun=' + document.getElementById('tahunGlobal').value + '&tahapan=1')">SEM_1</button>
+                            <button class="phase-btn" onclick="downloadReport('/export/kas-pajak-semester?tahun=' + document.getElementById('tahunGlobal').value + '&tahapan=2')">SEM_2</button>
+                        </div>
+                    </div>
+                    <div class="file-row">
+                        <span class="file-id">008</span><span class="file-perm">-rwxr-xr-x</span>
+                        <span class="file-name">Kas Pembantu Pajak Bulanan.xlsx</span>
+                        <a href="#" class="file-action-btn" onclick="downloadReport('/export/kas-pajak-bulanan?tahun=' + document.getElementById('tahunGlobal').value + '&bulan=' + document.getElementById('bulanGlobal').value)"></a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- KAS PEMBANTU TUNAI -->
+            <section id="kas-tunai" class="directory-section">
+                <div class="directory-header">/ARKAS/ROOT/KAS_PEMBANTU_TUNAI</div>
+                <div class="file-list">
+                    <div class="file-row">
+                        <span class="file-id">009</span><span class="file-perm">-rwxr-xr-x</span>
+                        <span class="file-name">Kas Pembantu Tunai Tahunan.xlsx</span>
+                        <a href="#" class="file-action-btn" onclick="downloadReport('/export/kas-tunai-tahunan?tahun=' + document.getElementById('tahunGlobal').value)"></a>
+                    </div>
+                    <div class="file-row">
+                        <span class="file-id">010</span><span class="file-perm">-rwxr-xr-x</span>
+                        <span class="file-name">Kas Pembantu Tunai Semester</span>
+                        <div class="phase-btns">
+                            <button class="phase-btn" onclick="downloadReport('/export/kas-tunai-semester?tahun=' + document.getElementById('tahunGlobal').value + '&tahapan=1')">SEM_1</button>
+                            <button class="phase-btn" onclick="downloadReport('/export/kas-tunai-semester?tahun=' + document.getElementById('tahunGlobal').value + '&tahapan=2')">SEM_2</button>
+                        </div>
                     </div>
                     <div class="file-row">
                         <span class="file-id">011</span><span class="file-perm">-rwxr-xr-x</span>
-                        <span class="file-name">tax_protocol_export.xlsx</span>
-                        <a href="#" class="file-action-btn" onclick="downloadReport('/export/kas-pajak-bulanan?tahun=' + document.getElementById('tahunGlobal').value + '&bulan=' + document.getElementById('bulanGlobal').value)"></a>
+                        <span class="file-name">Kas Pembantu Tunai Bulanan.xlsx</span>
+                        <a href="#" class="file-action-btn" onclick="downloadReport('/export/kas-tunai-bulanan?tahun=' + document.getElementById('tahunGlobal').value + '&bulan=' + document.getElementById('bulanGlobal').value)"></a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- REKAPITULASI BHP -->
+            <section id="bhp" class="directory-section">
+                <div class="directory-header">/ARKAS/ROOT/BHP</div>
+                <div class="file-list">
+                    <div class="file-row">
+                        <span class="file-id">010</span><span class="file-perm">-rw-------</span>
+                        <span class="file-name">Barang Habis Pakai Tahunan.xlsx</span>
+                        <a href="#" class="file-action-btn" onclick="downloadReport('/export/realisasi-bhp-tahunan?tahun=' + document.getElementById('tahunGlobal').value)"></a>
                     </div>
                     <div class="file-row">
-                        <span class="file-id">012</span><span class="file-perm">-rwxr-xr-x</span>
-                        <span class="file-name">cash_reserve_pull.xlsx</span>
-                        <a href="#" class="file-action-btn" onclick="downloadReport('/export/kas-tunai-bulanan?tahun=' + document.getElementById('tahunGlobal').value + '&bulan=' + document.getElementById('bulanGlobal').value)"></a>
+                        <span class="file-id">011</span><span class="file-perm">-rw-------</span>
+                        <span class="file-name">Barang Habis Pakai Semester</span>
+                        <div class="phase-btns">
+                            <button class="phase-btn" onclick="downloadReport('/export/realisasi-bhp-tahapan?tahun=' + document.getElementById('tahunGlobal').value + '&tahapan=1')">SEM_1</button>
+                            <button class="phase-btn" onclick="downloadReport('/export/realisasi-bhp-tahapan?tahun=' + document.getElementById('tahunGlobal').value + '&tahapan=2')">SEM_2</button>
+                        </div>
+                    </div>
+                    <div class="file-row">
+                        <span class="file-id">012</span><span class="file-perm">-rw-------</span>
+                        <span class="file-name">Barang Habis Pakai Bulanan.xlsx</span>
+                        <a href="#" class="file-action-btn" onclick="downloadReport('/export/realisasi-bhp-bulanan?tahun=' + document.getElementById('tahunGlobal').value + '&bulan=' + document.getElementById('bulanGlobal').value)"></a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- REKAPITULASI MODAL -->
+            <section id="modal" class="directory-section">
+                <div class="directory-header">/ARKAS/ROOT/MODAL_ASET</div>
+                <div class="file-list">
+                    <div class="file-row">
+                        <span class="file-id">020</span><span class="file-perm">-rw-------</span>
+                        <span class="file-name">Barang Modal Aset Tahunan.xlsx</span>
+                        <a href="#" class="file-action-btn" onclick="downloadReport('/export/realisasi-modal-tahunan?tahun=' + document.getElementById('tahunGlobal').value)"></a>
+                    </div>
+                    <div class="file-row">
+                        <span class="file-id">022</span><span class="file-perm">-rw-------</span>
+                        <span class="file-name">Barang Modal Aset Bulanan.xlsx</span>
+                        <a href="#" class="file-action-btn" onclick="downloadReport('/export/realisasi-modal-bulanan?tahun=' + document.getElementById('tahunGlobal').value + '&bulan=' + document.getElementById('bulanGlobal').value)"></a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- BUKU PEMBANTU RINCIAN OBJEK -->
+            <section id="bpobjek" class="directory-section">
+                <div class="directory-header">/ARKAS/ROOT/BP_OBJEK</div>
+                <div class="file-list">
+                    <div class="file-row">
+                        <span class="file-id">030</span><span class="file-perm">-rwxr-xr-x</span>
+                        <span class="file-name">Buku Pembantu Objek Tahunan.xlsx</span>
+                        <a href="#" class="file-action-btn" onclick="downloadReport('/export/bpobjek-tahunan?tahun=' + document.getElementById('tahunGlobal').value)"></a>
+                    </div>
+                    <div class="file-row">
+                        <span class="file-id">031</span><span class="file-perm">-rwxr-xr-x</span>
+                        <span class="file-name">Buku Pembantu Objek Semester</span>
+                        <div class="phase-btns">
+                            <button class="phase-btn" onclick="downloadReport('/export/bpobjek-tahapan?tahun=' + document.getElementById('tahunGlobal').value + '&tahapan=1')">SEM_1</button>
+                            <button class="phase-btn" onclick="downloadReport('/export/bpobjek-tahapan?tahun=' + document.getElementById('tahunGlobal').value + '&tahapan=2')">SEM_2</button>
+                        </div>
+                    </div>
+                    <div class="file-row">
+                        <span class="file-id">032</span><span class="file-perm">-rwxr-xr-x</span>
+                        <span class="file-name">Buku Pembantu Objek Bulanan.xlsx</span>
+                        <a href="#" class="file-action-btn" onclick="downloadReport('/export/bpobjek-bulanan?tahun=' + document.getElementById('tahunGlobal').value + '&bulan=' + document.getElementById('bulanGlobal').value)"></a>
                     </div>
                 </div>
             </section>
@@ -897,112 +1044,41 @@
                 <div class="directory-header">/ARKAS/ROOT/KERTAS_KERJA</div>
                 <div class="file-list">
                     <div class="file-row">
-                        <span class="file-id">020</span><span class="file-perm">-rw-r--r--</span>
-                        <span class="file-name">kk_annual_schema.xlsx</span>
+                        <span class="file-id">040</span><span class="file-perm">-rw-r--r--</span>
+                        <span class="file-name">Kertas Kerja Tahunan.xlsx</span>
                         <a href="#" class="file-action-btn" onclick="downloadReport('/export/kk-tahunan?tahun=' + document.getElementById('tahunGlobal').value)"></a>
                     </div>
                     <div class="file-row">
-                        <span class="file-id">021</span><span class="file-perm">-rw-r--r--</span>
-                        <span class="file-name">kk_phase_extractor</span>
+                        <span class="file-id">041</span><span class="file-perm">-rw-r--r--</span>
+                        <span class="file-name">Kertas Kerja Semester</span>
                         <div class="phase-btns">
-                            <button class="phase-btn" onclick="downloadReport('/export/kk-tahapan?tahun=' + document.getElementById('tahunGlobal').value + '&tahapan=1')">T1</button>
-                            <button class="phase-btn" onclick="downloadReport('/export/kk-tahapan?tahun=' + document.getElementById('tahunGlobal').value + '&tahapan=2')">T2</button>
-                            <button class="phase-btn" onclick="downloadReport('/export/kk-tahapan?tahun=' + document.getElementById('tahunGlobal').value + '&tahapan=3')">T3</button>
+                            <button class="phase-btn" onclick="downloadReport('/export/kk-tahapan?tahun=' + document.getElementById('tahunGlobal').value + '&tahapan=1')">SEM_1</button>
+                            <button class="phase-btn" onclick="downloadReport('/export/kk-tahapan?tahun=' + document.getElementById('tahunGlobal').value + '&tahapan=2')">SEM_2</button>
                         </div>
-                    </div>
-                    <div class="file-row">
-                        <span class="file-id">022</span><span class="file-perm">-rw-r--r--</span>
-                        <span class="file-name">kk_monthly_stream.xlsx</span>
-                        <a href="#" class="file-action-btn" onclick="downloadReport('/export/kk-bulanan?tahun=' + document.getElementById('tahunGlobal').value + '&bulan=' + document.getElementById('bulanGlobal').value)"></a>
                     </div>
                 </div>
             </section>
 
             <!-- RKAS -->
             <section id="rkas" class="directory-section">
-                <div class="directory-header">/ARKAS/ROOT/RKAS_SYSTEM</div>
+                <div class="directory-header">/ARKAS/ROOT/RKAS</div>
                 <div class="file-list">
                     <div class="file-row">
-                        <span class="file-id">030</span><span class="file-perm">-rwxrwxrwx</span>
-                        <span class="file-name">rkas_master_budget.xlsx</span>
+                        <span class="file-id">050</span><span class="file-perm">-rw-r--r--</span>
+                        <span class="file-name">Rincian RKAS Tahunan.xlsx</span>
                         <a href="#" class="file-action-btn" onclick="downloadReport('/export/rkas-tahunan?tahun=' + document.getElementById('tahunGlobal').value)"></a>
                     </div>
-                    <div class="file-row">
-                        <span class="file-id">031</span><span class="file-perm">-rwxrwxrwx</span>
-                        <span class="file-name">rkas_phase_budget</span>
-                        <div class="phase-btns">
-                            <button class="phase-btn" onclick="downloadReport('/export/rkas-tahapan?tahun=' + document.getElementById('tahunGlobal').value + '&tahapan=1')">T1</button>
-                            <button class="phase-btn" onclick="downloadReport('/export/rkas-tahapan?tahun=' + document.getElementById('tahunGlobal').value + '&tahapan=2')">T2</button>
-                            <button class="phase-btn" onclick="downloadReport('/export/rkas-tahapan?tahun=' + document.getElementById('tahunGlobal').value + '&tahapan=3')">T3</button>
-                        </div>
-                    </div>
                 </div>
             </section>
 
-            <!-- REALISASI -->
+            <!-- REKAPITULASI REALISASI -->
             <section id="realisasi" class="directory-section">
-                <div class="directory-header">/ARKAS/ROOT/REALISASI_DATA</div>
+                <div class="directory-header">/ARKAS/ROOT/REKAP_REALISASI</div>
                 <div class="file-list">
                     <div class="file-row">
-                        <span class="file-id">040</span><span class="file-perm">-r--r--r--</span>
-                        <span class="file-name">real_monthly_exec.xlsx</span>
-                        <a href="#" class="file-action-btn" onclick="downloadReport('/export/realisasi-bulanan?tahun=' + document.getElementById('tahunGlobal').value + '&bulan=' + document.getElementById('bulanGlobal').value)"></a>
-                    </div>
-                    <div class="file-row">
-                        <span class="file-id">041</span><span class="file-perm">-r--r--r--</span>
-                        <span class="file-name">real_phase_exec</span>
-                        <div class="phase-btns">
-                            <button class="phase-btn" onclick="downloadReport('/export/realisasi-tahapan?tahun=' + document.getElementById('tahunGlobal').value + '&tahapan=1')">T1</button>
-                            <button class="phase-btn" onclick="downloadReport('/export/realisasi-tahapan?tahun=' + document.getElementById('tahunGlobal').value + '&tahapan=2')">T2</button>
-                            <button class="phase-btn" onclick="downloadReport('/export/realisasi-tahapan?tahun=' + document.getElementById('tahunGlobal').value + '&tahapan=3')">T3</button>
-                        </div>
-                    </div>
-                    <div class="file-row">
-                        <span class="file-id">042</span><span class="file-perm">-r--r--r--</span>
-                        <span class="file-name">real_annual_summary.xlsx</span>
+                        <span class="file-id">060</span><span class="file-perm">-rwxrwxrwx</span>
+                        <span class="file-name">Rekap Realisasi Tahunan.xlsx</span>
                         <a href="#" class="file-action-btn" onclick="downloadReport('/export/realisasi-tahunan?tahun=' + document.getElementById('tahunGlobal').value)"></a>
-                    </div>
-                </div>
-            </section>
-
-            <!-- BHP & MODAL & OBJEK -->
-            <section id="realisasi-bhp" class="directory-section">
-                <div class="directory-header">/ARKAS/ROOT/ASSET_INVENTORY</div>
-                <div class="file-list">
-                    <div class="file-row">
-                        <span class="file-id">050</span><span class="file-perm">-rw-------</span>
-                        <span class="file-name">bhp_monthly_log.xlsx</span>
-                        <a href="#" class="file-action-btn" onclick="downloadReport('/export/bhp-bulanan?tahun=' + document.getElementById('tahunGlobal').value + '&bulan=' + document.getElementById('bulanGlobal').value)"></a>
-                    </div>
-                    <div class="file-row">
-                        <span class="file-id">060</span><span class="file-perm">-rw-------</span>
-                        <span class="file-name">modal_annual_asset.xlsx</span>
-                        <a href="#" class="file-action-btn" onclick="downloadReport('/export/modal-tahunan?tahun=' + document.getElementById('tahunGlobal').value)"></a>
-                    </div>
-                    <div class="file-row">
-                        <span class="file-id">070</span><span class="file-perm">-rw-------</span>
-                        <span class="file-name">buku_objek_monthly.xlsx</span>
-                        <a href="#" class="file-action-btn" onclick="downloadReport('/export/buku-objek-bulanan?tahun=' + document.getElementById('tahunGlobal').value + '&bulan=' + document.getElementById('bulanGlobal').value)"></a>
-                    </div>
-                </div>
-            </section>
-
-            <!-- BOSP -->
-            <section id="bosp" class="directory-section">
-                <div class="directory-header">/ARKAS/ROOT/BOSP_REPORT</div>
-                <div class="file-list">
-                    <div class="file-row">
-                        <span class="file-id">090</span><span class="file-perm">-rwx------</span>
-                        <span class="file-name">bosp_semester_extract</span>
-                        <div class="phase-btns">
-                            <button class="phase-btn" onclick="downloadReport('/export/bosp-semester?tahun=' + document.getElementById('tahunGlobal').value + '&semester=1')">SEM_1</button>
-                            <button class="phase-btn" onclick="downloadReport('/export/bosp-semester?tahun=' + document.getElementById('tahunGlobal').value + '&semester=2')">SEM_2</button>
-                        </div>
-                    </div>
-                    <div class="file-row">
-                        <span class="file-id">099</span><span class="file-perm">-rwx------</span>
-                        <span class="file-name">bosp_k7a_final_extract.xlsx</span>
-                        <a href="#" class="file-action-btn" onclick="downloadReport('/export/bosp-tahunan?tahun=' + document.getElementById('tahunGlobal').value)"></a>
                     </div>
                 </div>
             </section>
@@ -1036,7 +1112,7 @@
                 "[    1.214562] NETWORK: Pinging remote database ARKAS_SECURE_SVR...",
                 "[    2.562341] SECURITY: Brute-forcing SQLCipher 256-bit AES...",
                 "[    4.982311] SUCCESS: Key-injection successful. Accessing rapt_bku...",
-                "[    6.341235] AUTH: ARCHITECT: santo x/code - VERIFIED.",
+                "[    6.341235] <span id=\"architect-title\"></span>",
                 "[    8.782341] DATABASE: Streaming metadata from node PASIRHALANG_01...",
                 "[   10.123451] BYPASS: All security layers suppressed. Welcome, Arsitek."
             ];
@@ -1154,19 +1230,22 @@
 
         // Smooth scroll and active state
         const navLinks = document.querySelectorAll('.nav-link');
-        const sections = document.querySelectorAll('section');
+        const contentSections = document.querySelectorAll('section');
 
         navLinks.forEach(link => {
             link.addEventListener('click', function(e) {
-                e.preventDefault();
                 const targetId = this.getAttribute('href');
-                const target = document.querySelector(targetId);
-                
-                navLinks.forEach(l => l.classList.remove('active'));
-                this.classList.add('active');
+                if (targetId && targetId.startsWith('#')) {
+                    e.preventDefault();
+                    const target = document.querySelector(targetId);
+                    
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
 
-                if(target) {
-                    target.scrollIntoView({ behavior: 'smooth' });
+                    if(target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        addLog(`[NAV] Accessing Node: ${targetId.substring(1).toUpperCase()}`, 'system');
+                    }
                 }
             });
         });
@@ -1174,20 +1253,21 @@
         // Update active link on scroll
         window.addEventListener('scroll', () => {
             let current = '';
-            sections.forEach(section => {
+            contentSections.forEach(section => {
                 const sectionTop = section.offsetTop;
-                const sectionHeight = section.clientHeight;
-                if (window.pageYOffset >= sectionTop - 200) {
+                if (window.pageYOffset >= sectionTop - 150) {
                     current = section.getAttribute('id');
                 }
             });
 
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') === `#${current}`) {
-                    link.classList.add('active');
-                }
-            });
+            if (current) {
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${current}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
         });
     </script>
 </body>
